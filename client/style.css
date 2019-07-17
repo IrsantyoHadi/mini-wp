@@ -1,0 +1,90 @@
+*{
+  margin: 0 ;
+  padding: 0;
+}
+
+.row {
+  margin: 0
+}
+body {
+  font-family: sans-serif;
+  height: 100%;
+}
+.nav {
+  color:#fff;
+  background-color: rgb(3,60,95);
+  z-index: 100000000;
+}
+
+#logo {
+  background-color: rgb(65, 104, 173);
+}
+
+.nav a {
+  color: white;
+}
+
+#board {
+  background-color: rgb(194,	208,	216);
+  min-height: 100vh;
+}
+
+.mainNav {
+  margin: 10px;
+  padding: 10px;
+}
+
+.manage {
+  color: grey;
+  margin: 10px;
+  font-size: 15px;
+}
+
+.btn-outline-dark {
+  font-size: 12px;
+  width: 80px;
+}
+
+a {
+  color: black
+}
+
+#card-container .card {
+  margin-bottom: 20px
+}
+
+#card-container-search .card {
+  margin-bottom: 20px
+}
+
+.sidenav {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 0; /* Stay on top */
+  top: 1; /* Stay at the top */
+  left: 0;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 20px;
+  background-color: white;
+  width: 100%
+}
+
+#dash {
+  height: 100%;
+  margin-top: 60px;
+}
+
+#addForm {
+  margin-top: 100px;
+  width: 100%;
+}
+
+.editForm {
+  margin-top: 100px;
+  width: 100%;
+  background-color: white;
+}
+
+#nav-container {
+  margin-top: 100px;
+}

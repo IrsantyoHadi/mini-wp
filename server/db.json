@@ -1,0 +1,119 @@
+{
+  "articles": [
+    {
+      "title": "HALO",
+      "description": [
+        "test doang kok"
+      ],
+      "created_at": "hari ini"
+    },
+    {
+      "title": "HALO1",
+      "description": [
+        "test doang kok1"
+      ],
+      "created_at": "kemaren ini"
+    },
+    {
+      "title": "HALO2",
+      "description": [
+        "test doang kok2"
+      ],
+      "created_at": "besok ini"
+    },
+    {
+      "title": "halo baru",
+      "description": "ini baru ",
+      "created_at": "baru banget",
+      "id": "1"
+    },
+    {
+      "title": "halo baru",
+      "description": "ini baru ",
+      "created_at": "baru banget",
+      "id": "2"
+    },
+    {
+      "id": 10,
+      "title": "hahahah",
+      "description": "hahahah",
+      "created_at": "2019-07-16T07:45:39.859Z"
+    },
+    {
+      "id": 11,
+      "title": "ini baru ",
+      "description": "ini baru ",
+      "created_at": "2019-07-16T07:46:25.419Z"
+    },
+    {
+      "id": 12,
+      "title": "buka bareng kholis",
+      "description": {
+        "ops": [
+          {
+            "insert": "\n"
+          }
+        ]
+      },
+      "created_at": "2019-07-16T07:47:36.410Z"
+    },
+    {
+      "id": 0.5762625872091651,
+      "title": "halo bandung",
+      "description": {
+        "ops": [
+          {
+            "insert": "\n"
+          }
+        ]
+      },
+      "created_at": "2019-07-16T07:52:27.365Z"
+    },
+    {
+      "id": 0.263395970386443,
+      "title": "buka bersama lagi",
+      "description": "[{\"insert\":\"\\n\"}]",
+      "created_at": "2019-07-16T07:53:22.678Z"
+    },
+    {
+      "id": 0.7002920917524353,
+      "title": "tes12341",
+      "description": "[{\"insert\":\"\\n\"}]",
+      "created_at": "2019-07-16T07:53:43.093Z"
+    },
+    {
+      "id": 0.9079909695699759,
+      "title": "12312",
+      "description": "{\"insert\":\"\\n\"}",
+      "created_at": "2019-07-16T07:54:23.343Z"
+    },
+    {
+      "id": 0.10253330228854662,
+      "title": "asdasdasd",
+      "description": "\"\\n\"",
+      "created_at": "2019-07-16T07:54:44.890Z"
+    },
+    {
+      "id": 0.5305161719974671,
+      "title": "bangsat lo tom",
+      "description": "\"\\n\"",
+      "created_at": "2019-07-16T07:58:05.561Z"
+    },
+    {
+      "id": 0.3453046667517867,
+      "title": "123123123",
+      "description": "\"\\n\"",
+      "created_at": "2019-07-16T07:58:20.556Z"
+    },
+    {
+      "title": "halo ",
+      "descriptions": "LOREM IPSUM IPSUM",
+      "id": 13
+    },
+    {
+      "title": "asdadas",
+      "description": "LOREM IPSUM IPSUM",
+      "id": 14
+    }
+  ]
+}
