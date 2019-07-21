@@ -1,4 +1,4 @@
 node_modules
-.env
-keyfile.json
+.cache
+dist
 .DS_Store

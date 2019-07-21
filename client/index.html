@@ -2,185 +2,20 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Mini-WP</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-	<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <title>Vue with Parcel</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./node_modules/vue-wysiwyg/dist/vueWysiwyg.css">
 </head>
 
 <body>
-	<div id="app">
-		<nav class="nav fixed-top">
-			<div class="d-flex col-sm align-items-center">
-				<div class="d-flex col-sm-3 align-items-center" id="logo">
-					<span style="font-size: 2em;">
-						<i class="fab fa-wordpress mr-2"></i>
-					</span> </i>My Sites
-				</div>
-				<div class="col-sm-3 d-flex align-items-center">
-					<span style="font-size: 2em;">
-						<i class="far fa-newspaper mr-2"></i>
-					</span> </i>Reader
-				</div>
-			</div>
-			<div class="d-flex flex-row-reverse col-sm align-items-center">
-				<div class="col-sm-1"><a href="#"><i class="far fa-bell"></i></a></div>
-				<div class="col-sm-1 ml-2"><a href="#"><i class="far fa-user-circle"></i></a></div>
-				<div class="col-sm-2 mr-2 p-0"><button type="button" class="btn btn-light"
-						style="width: 100px; color: rgb(65, 104, 173)"><i class="far fa-edit"></i>Write</button></div>
-			</div>
-		</nav>
-
-		<div class="row d-flex justify-content-end">
-			<div class="d-flex flex-column col-sm-3 sidenav" id="dash">
-				<div class="row-sm-1 mainNav manage">Menu</div>
-				<div class="row-sm-1 mainNav"><i class="fas fa-desktop mr-2"></i><a
-						@click.prevent="show(['listArticle','navArticle'])" href="#">Article
-						List</a>
-				</div>
-				<div class="row-sm-1 mainNav manage">Manage</div>
-				<div class="d-flex justify-content-between align-items-center row-sm-1 mainNav pl-2" style="padding:0">
-					<div class="col-"><i class="far fa-file mr-2"></i>Add Article</div>
-					<div class="col-"><button type="button" class="btn btn-outline-dark"
-							@click.prevent="show(['addForm'])">Add</button>
-					</div>
-				</div>
-				<div class="d-flex justify-content-between align-items-center row-sm-1 mainNav pl-2" style="padding:0">
-					<div class="col-"><i class="far fa-images mr-2"></i></i>Add Image</div>
-					<div class="col-"><button type="button" class="btn btn-outline-dark">Add</button></div>
-				</div>
-			</div>
-			<div class="col-sm-9" id="board">
-				<nav id="nav-container" v-if="section.navArticle"
-					class="text-light navbar navbar-expand-lg navbar-light bg-dark rounded-pill mb-4">
-					<div class="d-flex justify-content-between" style="width: 100%">
-						<a class="navbar-brand">My Article</a>
-						<form class="form-inline" @submit.prevent="searchArticles">
-							<input class="form-control mr-sm-2" type="search" placeholder="Search" v-model="search"
-								aria-label="Search">
-							<button class="btn btn-outline-info my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
-						</form>
-					</div>
-				</nav>
-
-				<div id="articles">
-					<div class="d-flex flex-column justify-content-around container mt-5">
-
-						<div id="card-container" v-if="section.listArticle"
-							class="d-flex justify-content-start flex-column container" v-for="art in articles">
-							<div class="card">
-								<div class="card-header">
-									<h2> {{ art.title }} </h2>
-								</div>
-								<div class="d-flex flex-column card-body">
-									<blockquote class="blockquote mb-0">
-										<p>{{ art.content }}</p>
-										<footer class="blockquote-footer">createdAt <cite title="Source Title">{{ art.createdAt }}</cite>
-										</footer>
-									</blockquote>
-									<a href="#" class="btn btn-outline-secondary">See Detail</a>
-									<div class="d-flex justify-content-between align-items-center row-sm-1 pl-2" style="padding:0">
-										<div class="col-"><a href="#" @click.prevent="callForm(art._id)" ><i class="fas fa-edit mr-2 mt-2"></i>Edit Article</a>
-											<div :id="art._id" class="col-" @click.prevent="deleteArticle(art._id)"><a href="#"><i
-														class="fas fa-trash"></i>Delete Article</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<section id="card-search" v-if="section.searchArticle">
-							<div id="card-container-search" class="d-flex justify-content-start flex-column container"
-								v-for="art in filterArticles">
-								<div class="card">
-									<div class="card-header">
-										<h2> {{ art.title }} </h2>
-									</div>
-									<div class="d-flex flex-column card-body">
-										<blockquote class="blockquote mb-0">
-											<p>{{ art.content }}</p>
-											<footer class="blockquote-footer">createdAt <cite title="Source Title">{{ art.createdAt }}</cite>
-											</footer>
-										</blockquote>
-										<a href="#" class="btn btn-outline-secondary">See Detail</a>
-										<div class="d-flex justify-content-between align-items-center row-sm-1 pl-2" style="padding:0">
-											<div class="col-"><a href="#"><i class="fas fa-edit mr-2 mt-2"></i>Edit Article</a>
-												<div :id="art._id" class="col-" @click.prevent="deleteArticle(art._id)"><a href="#"><i
-															class="fas fa-trash"></i>Delete Article</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</section>
-					</div>
-				</div>
-
-
-				<div class="container d-flex flex-column justify-content-start bg-light" id="addForm" v-if="section.addForm">
-					<div class="col-sm-12">
-						<p style="font-size: 50px"><strong>Share Your Story :</strong></p>
-					</div>
-					<div class="col-sm-10">
-						<form action="post" v-on:submit.prevent="addArticle">
-							<div class="md-form mt-3">
-								<input type="text" v-model="title" id="title" class="form-control">
-								<label for="title">Title</label>
-							</div>
-							<div class="md-form">
-								<div id="editor" style="height: 170px"></div>
-								<label for="description">Content</label>
-							</div>
-							<div class="form-group">
-								<input type="submit" value="Submit"
-									class="btn btn-outline-secondary btn-rounded btn-block z-depth-0 my-4 waves-effect">
-							</div>
-						</form>
-					</div>
-				</div>
-
-				<section class="editForm" v-if="section.editForm">
-					<div class="col-sm-12">
-						<p style="font-size: 50px"><strong>Change Your Story :</strong></p>
-					</div>
-					<form class=" d-flex flex-column justify-content-start col-sm-10" @submit.prevent="editArticle(filterArticles[0]._id)">
-						<div class="form-group">
-							<label for="editTitle">Title</label>
-							<input type="text" class="form-control" id="editTitle" v-model="title">
-						</div>
-						<label for="editContent">Content</label>
-						<textarea class="form-control" id="editContent" rows="4" v-model="content"></textarea>
-						<div class="d-flex form-group">
-							<input type="submit" value="Submit"
-								class="col-sm-2 btn btn-outline-secondary btn-rounded btn-block z-depth-0 my-4 waves-effect mr-3">
-								<button type="button" class=" col-sm-2 btn-outline-secondary btn-rounded btn-block z-depth-0 my-4 waves-effect">Cancel</button>
-						</div>
-						</form>
-						</section>
-			</div>
-
-		</div>
-	</div>
-	</div>
-
-	<script src="https://kit.fontawesome.com/ef1ef08c31.js"></script>
-	<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-	<script>
-		var quill = new Quill('#editor', {
-			theme: 'snow'
-		});
-	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-	<script src="./vues.js"></script>
-
+  <div id="app"></div>
+  <script src="./src/main.js"></script>
+  <script src="https://kit.fontawesome.com/ef1ef08c31.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
 </body>
 
 </html>

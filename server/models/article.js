@@ -10,6 +10,9 @@ let articleSchema = new Schema({
   content: {
     type: String,
     required: [true, 'please insert your content here']
+  },
+  imageUrl : {
+    type: String
   }
 }, { versionKey: false, timestamps: true })
 

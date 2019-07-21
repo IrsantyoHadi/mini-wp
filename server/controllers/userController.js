@@ -6,12 +6,19 @@ const { sign, decodeId } = require('../helpers/jwtoken')
 
 class UserController {
   static signup(req, res, next) {
-    let { username, email, password } = req.body
-    let newUser = { username, email, password }
+    let { username, email, password, firstname, lastname } = req.body
+    let newUser = { firstname, lastname, username, email, password }
     userModel
       .create(newUser)
       .then((newUser) => {
-        res.status(201).json(newUser)
+        let payload = {
+          _id: newUser._id,
+          fullname: newUser.firstname + ' ' + newUser.lastname,
+          username: newUser.username,
+          email: newUser.email
+        }
+        let token = sign(payload)
+        res.status(201).json({ token })
       })
       .catch(next)
   }
@@ -95,8 +102,8 @@ class UserController {
   static find(req, res, next) {
     let user = decodeId(req.headers.token)
     userModel.findById(user._id)
-      .then(data =>{
-        res.status(200).json({data})
+      .then(data => {
+        res.status(200).json({ data })
       })
       .catch(next)
   }

@@ -39,8 +39,8 @@ new Vue({
         url: `${baseUrl}/articles/${params}`,
       })
         .then(({ data }) => {
-          let found = this.articles.filter(el =>{
-           return el._id != params
+          let found = this.articles.filter(el => {
+            return el._id != params
           })
           this.articles = found
           this.show(['listArticle', 'navArticle'])
@@ -51,8 +51,8 @@ new Vue({
     },
 
     callForm(params) {
-      let found = this.articles.filter((el)=>{
-        if(el._id == params){
+      let found = this.articles.filter((el) => {
+        if (el._id == params) {
           return el
         }
       })
@@ -61,7 +61,7 @@ new Vue({
       this.content = found[0].content
       this.show(['editForm'])
     },
-    editArticle(params){
+    editArticle(params) {
       axios({
         method: 'put',
         url: `${baseUrl}/articles/${params}`,
@@ -71,8 +71,8 @@ new Vue({
         }
       })
         .then(({ data }) => {
-          this.articles.forEach(el=>{
-            if(el._id == params){
+          this.articles.forEach(el => {
+            if (el._id == params) {
               el.title = this.title
               el.content = this.content
             }

@@ -2,10 +2,15 @@ const { articleModel } = require("../models")
 
 class ArticleController {
   static create(req, res, next) {
-    const { title, content } = req.body
+    const { title, content} = req.body
+    let imageUrl = null
+    if(req.file) {
+      imageUrl = req.file.cloudStoragePublicUrl
+    }
     articleModel.create({
       title,
-      content
+      content,
+      imageUrl
     })
       .then(function (data) {
         res.status(201).json({
@@ -28,11 +33,15 @@ class ArticleController {
   }
 
   static update(req, res, next) {
+    if(req.file){
+      req.body.imageUrl = req.file.cloudStoragePublicUrl
+    }
     articleModel.update({ _id: req.params.articleId }, req.body)
       .then(function (data) {
         res.status(200).json({
           data,
-          msg: 'berhasil update'
+          msg: 'berhasil update',
+          image : req.file.cloudStoragePublicUrl
         })
       })
       .catch(next)
