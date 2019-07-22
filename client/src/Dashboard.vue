@@ -175,8 +175,8 @@ export default {
               title: `${err.response}`,
               showConfirmButton: false,
               timer: 1500
-            });
-          });
+            })
+          })
       }
     },
     addNewData: function(param) {

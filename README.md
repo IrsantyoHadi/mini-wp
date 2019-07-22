@@ -1,4 +1,6 @@
 # mini-wp
+## Deploy Link
+http://miniwp.irsantyohadi.com/
 
 ## Endpoint
 
