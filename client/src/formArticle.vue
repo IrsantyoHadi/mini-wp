@@ -23,11 +23,7 @@
 <script>
 import imageuploader from "./imageuploader";
 import axios from "axios";
-import base64url from "base64url"
-const instance = axios.create({
-  baseURL: "http://localhost:3000",
-  headers: { token: localStorage.getItem("token") }
-});
+import base64url from "base64url";
 export default {
   components: {
     imageuploader
@@ -41,19 +37,21 @@ export default {
   },
   methods: {
     getimage: function(param) {
-      console.log(param)
-      this.image = param
+      this.image = param;
     },
     createArticle: function() {
-      const formData = new FormData()
-      formData.append('image',this.image)
-      formData.append('title',this.title)
-      formData.append('content',this.myHTML)
-      instance
-        .post("/articles", formData)
+      const formData = new FormData();
+      formData.append("image", this.image);
+      formData.append("title", this.title);
+      formData.append("content", this.myHTML);
+      axios({
+        method: "post",
+        url: "http://localhost:3000/articles",
+        headers : { token : localStorage.getItem('token')},
+        data: formData
+      })
         .then(({ data }) => {
-          console.log(data)
-          this.$emit('newdata', data.data)
+          this.$emit("newdata", data.data);
         })
         .catch(err => {
           console.log(err.response);
@@ -63,7 +61,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 input[type="text"] {
   width: 100%;
   padding: 12px 20px;
@@ -72,3 +70,4 @@ input[type="text"] {
   border-style: solid;
 }
 </style>
+

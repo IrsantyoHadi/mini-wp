@@ -15,6 +15,10 @@ function errHandler(err, req, res, next) {
     status = 400
     message.err = err
   }
+  else if ( err.status === 401) {
+    status = 401
+    message.err = err.message
+  }
   else {
     status = 500
     message.err = `Internal server error`

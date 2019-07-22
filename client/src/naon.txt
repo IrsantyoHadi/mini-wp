@@ -1,14 +1,12 @@
 <template>
-  <v-layout>
-    <v-flex v-if="signupform">
-      <v-form v-model="valid">
-        <form @submit.prevent="signup">
+  <div style="margin:0">
+    <v-form v-model="valid" v-if="signupform">
+      <form @submit.prevent="signup">
+        <v-container justify-center style="margin-top:0">
           <v-layout row justify-center>
             <v-flex xs12 md4>
               <v-layout justify-center>
-                <p style="font-size:30px; margin-top:20px">
-                  <strong>Sign Up</strong>
-                </p>
+                <h1>Sign Up</h1>
               </v-layout>
               <div class="text">
                 <v-text-field v-model="username" :rules="nameRules" label="Username" required></v-text-field>
@@ -39,26 +37,20 @@
                 <input type="submit" value />
                 <v-btn @click="signup">Sign Up</v-btn>
                 <a href @click.prevent="showSignIn">OR already have an account?</a>
-                <v-btn @click="signinGoogle" dark color="info">
-                  SIGN IN WITH
-                  <v-icon style="margin-left:20px">fab fa-google</v-icon>
-                </v-btn>
               </div>
             </v-flex>
           </v-layout>
-        </form>
-      </v-form>
-    </v-flex>
+        </v-container>
+      </form>
+    </v-form>
 
-    <v-flex v-if="signinform">
-      <v-form v-model="valid">
-        <form @submit.prevent="signin">
+    <v-form v-model="valid" v-if="signinform">
+      <form @submit.prevent="signin">
+        <v-container justify-center>
           <v-layout row justify-center>
             <v-flex xs12 md4>
               <v-layout justify-center>
-                <p style="font-size:30px; margin-top:20px">
-                  <strong>Sign In</strong>
-                </p>
+                <h1>Sign In</h1>
               </v-layout>
               <div class="text">
                 <v-text-field v-model="username" :rules="nameRules" label="Username" required></v-text-field>
@@ -78,17 +70,15 @@
                 <input type="submit" value />
                 <v-btn @click="signin">Sign In</v-btn>
               </div>
-              <v-flex justify-content-center align-center>
-                <v-flex>
-                  <v-icon style="margin-left:15px" id="back" @click="showSignUp">fas fa-backspace</v-icon>
-                </v-flex>
-              </v-flex>
+              <div class="text" style="margin-top: 5px">
+                <v-icon id="back" @click="showSignUp">fas fa-backspace</v-icon>
+              </div>
             </v-flex>
           </v-layout>
-        </form>
-      </v-form>
-    </v-flex>
-  </v-layout>
+        </v-container>
+      </form>
+    </v-form>
+  </div>
 </template>
 
 <script>
@@ -96,6 +86,10 @@ import axios from "axios";
 export default {
   name: "signupform",
   data: () => ({
+    baseUrl: axios.create({
+      baseURL: "http://localhost:3000",
+      headers: { token: localStorage.getItem("token") }
+    }),
     valid: false,
     firstname: "",
     lastname: "",
@@ -121,78 +115,36 @@ export default {
   }),
   methods: {
     signup: function() {
-      axios({
-        url: "http://localhost:3000/users/signup",
-        method: "POST",
-        data: {
+      this.baseUrl
+        .post("/users/signup", {
           firstname: this.firstname,
           lastname: this.lastname,
           username: this.username,
           email: this.email,
           password: this.password
-        }
-      })
+        })
         .then(({ data }) => {
-          localStorage.setItem("token", data.token);
+          localStorage.setItem("token", data.token)
           localStorage.setItem("username", this.username);
-          this.$emit("toggledashboard");
+          this.$emit("toggledashboard")
         })
         .catch(err => {
           console.log(err.response);
         });
     },
     signin: function() {
-      axios({
-        url: "http://localhost:3000/users/signin",
-        method: "POST",
-        data: {
+      this.baseUrl
+        .post("/users/signin", {
           username: this.username,
           password: this.password
-        }
-      })
+        })
         .then(({ data }) => {
           localStorage.setItem("token", data.token);
           localStorage.setItem("username", this.username);
-          this.$emit("toggledashboard");
+          this.$emit("toggledashboard")
         })
         .catch(err => {
           console.log(err.response);
-        });
-    },
-    signinGoogle: function() {
-      let username;
-      this.$gAuth
-        .signIn()
-        .then(GoogleUser => {
-          // On success do something, refer to https://developers.google.com/api-client-library/javascript/reference/referencedocs#googleusergetid
-          // GoogleUser.getId() : Get the user's unique ID string.
-          // GoogleUser.getBasicProfile() : Get the user's basic profile information.
-          // GoogleUser.getAuthResponse() : Get the response object from the user's auth session. access_token and so on
-          let id_token = GoogleUser.getAuthResponse().id_token;
-          username = GoogleUser.getBasicProfile().ofa;
-          this.isSignIn = this.$gAuth.isAuthorized;
-          return {
-            id_token,
-            username
-          };
-        })
-        .then(function(data) {
-          return axios({
-            url: "http://localhost:3000/users/signinGoogle",
-            method: "POST",
-            data: {
-              data
-            }
-          });
-        })
-        .then(({ data }) => {
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("username", username);
-          this.$emit("toggledashboard");
-        })
-        .catch(error => {
-          //on fail do something
-          console.log(err);
         });
     },
     showSignIn: function() {
@@ -223,5 +175,3 @@ a:hover {
   cursor: pointer;
 }
 </style>
-
-

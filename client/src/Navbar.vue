@@ -23,18 +23,13 @@ export default {
   props : ['islogin'],
   data() {
     return {
-
 		};
   },
   methods: {
     dologout : function() {
       localStorage.removeItem('token')
+      localStorage.removeItem('username')
       this.$emit('logout')
-    }
-  },
-  created : function () {
-    if(localStorage.getItem('token')){
-      this.islogin = true
     }
   }
 };

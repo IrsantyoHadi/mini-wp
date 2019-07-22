@@ -1,11 +1,11 @@
-const { todoModel } = require('../models/index')
+const { articleModel } = require('../models/index')
 module.exports = (req, res, next) => {
 
-  todoModel.findById(req.params.id)
-    .then(dataTodo => {
-      if (dataTodo) {
-        if (dataTodo.userId == req.decoded._id) {
-          next()
+  articleModel.findById(req.params.articleId)
+    .then(dataArticle => {
+      if (dataArticle) {
+        next()
+        if (dataArticle.UserId == req.decoded._id) {
         }
         else {
           throw {

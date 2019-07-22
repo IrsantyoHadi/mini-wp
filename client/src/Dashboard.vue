@@ -27,16 +27,22 @@
         </v-navigation-drawer>
       </v-flex>
       <v-flex row xs9 style="min-height:100vh; padding-right:20px; padding-top:10px">
+        <detailarticle :detail="detail" v-if="getdetail"></detailarticle>
+
         <editarticle
+          :alldata="articles"
           :editcontent="content"
           :edittitle="title"
           :editid="id"
           v-if="formedit"
           @editform="replaceEditData"
         ></editarticle>
+
         <formarticle @newdata="addNewData" v-if="formArticle"></formarticle>
-        <div v-if="cardArticles">
+
+        <v-layout v-if="cardArticles" wrap>
           <cardarticle
+            :loggedname="username"
             style="margin:10px"
             v-for="article in articles"
             :key="article._id"
@@ -44,48 +50,81 @@
             :content="article.content"
             :image="article.imageUrl"
             :articleId="article._id"
+            :username="article.UserId.username"
+            :createdat="article.updatedAt"
             @editarticle="editArticle"
             @deletearticle="deleteArticle"
+            @getdetail="detailArticle"
           ></cardarticle>
-        </div>
+        </v-layout>
+
+        <v-layout v-if="searchCardArticles" wrap>
+          <cardarticle
+            :loggedname="username"
+            style="margin:10px"
+            v-for="article in searchArticles"
+            :key="article._id"
+            :judul="article.title"
+            :content="article.content"
+            :image="article.imageUrl"
+            :articleId="article._id"
+            :username="article.UserId.username"
+            :createdat="article.updatedAt"
+            @editarticle="editArticle"
+            @deletearticle="deleteArticle"
+            @getdetail="detailArticle"
+          ></cardarticle>
+        </v-layout>
       </v-flex>
     </v-layout>
   </div>
 </template>
 
 <script>
+import detailarticle from "./DetailArticle";
 import cardarticle from "./CardArticle";
 import formarticle from "./formArticle";
 import editarticle from "./editArticle";
 import axios from "axios";
-const instance = axios.create({
-  baseURL: "http://localhost:3000",
-  headers: { token: localStorage.getItem("token") }
-});
+import Swal from "sweetalert2";
 
 export default {
   name: "dashboard",
   components: {
     cardarticle,
     formarticle,
-    editarticle
+    editarticle,
+    detailarticle
   },
   data() {
     return {
       items: [
         { title: "Dashboard", icon: "dashboard" },
         { title: "Write", icon: "fas fa-edit" },
-        { title: "Add Image", icon: "fas fa-images" }
+        { title: "Add Image", icon: "fas fa-images" },
+        { title: "My Post", icon: "fas fa-id-card" }
       ],
-      username: "Irsantyo Hadi",
+      username: localStorage.getItem("username")
+        ? localStorage.getItem("username")
+        : "Stranger",
       right: null,
       articles: [],
+      searchArticles: [],
       formArticle: false,
       title: "",
       content: "",
       id: "",
       formedit: false,
-      cardArticles: true
+      cardArticles: true,
+      searchCardArticles: false,
+      detail: {
+        createdat: "",
+        username: "",
+        title: "",
+        content: "",
+        imageUrl: ""
+      },
+      getdetail: false
     };
   },
   methods: {
@@ -93,18 +132,54 @@ export default {
       if (param === "Write") {
         this.formArticle = true;
         this.cardArticles = false;
+        this.searchCardArticles = false;
+        this.getdetail = false;
+        this.formedit = false;
       } else if (param == "Dashboard") {
         this.cardArticles = true;
         this.formArticle = false;
         this.formedit = false;
+        this.searchCardArticles = false;
+        this.getdetail = false;
+      } else if (param == "My Post") {
+        this.cardArticles = true
+        axios({
+          method: "get",
+          url: `http://localhost:3000/articles?UserId=${localStorage.getItem("token")}`,
+          headers : {token : localStorage.getItem('token')}
+        })
+          .then(({ data }) => {
+            if (data.data.length) {
+              this.searchArticles = data.data;
+              this.searchCardArticles = true;
+              this.cardArticles = false;
+              this.formArticle = false;
+              this.formedit = false;
+              this.getdetail = false;
+            } else {
+              Swal.fire({
+                position: "top-end",
+                type: "error",
+                title: "You don't have any post yet",
+                showConfirmButton: false,
+                timer: 1500
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
     },
     addNewData: function(param) {
       this.articles.unshift(param);
+      this.formArticle = false;
+      this.cardArticles = true;
     },
     editArticle: function(param) {
       this.formedit = true;
       this.cardArticles = false;
+      this.searchCardArticles = false;
       let found = this.articles.filter(el => {
         if (el._id == param) {
           return el;
@@ -134,15 +209,34 @@ export default {
     deleteArticle: function(param) {
       let newData = this.articles.filter(el => {
         if (el._id != param) {
-          return el
+          return el;
         }
-      })
-      this.articles = newData
+      });
+      this.articles = newData;
+    },
+    detailArticle: function(param) {
+      let found = this.articles.filter(el => {
+        if (el._id === param) {
+          return el;
+        }
+      });
+      let ini = found[0];
+      this.detail.createdat = ini.createdAt;
+      this.detail.content = ini.content;
+      this.detail.title = ini.title;
+      this.detail.imageUrl = ini.imageUrl;
+      this.detail.username = ini.UserId.username;
+
+      this.formedit = false;
+      this.cardArticles = false;
+      this.searchCardArticles = false;
+      this.formArticle = false;
+      this.getdetail = true;
     }
   },
   mounted: function() {
-    instance
-      .get("/articles")
+    axios
+      .get("http://localhost:3000/articles/all")
       .then(({ data }) => {
         this.articles = data.data;
       })

@@ -13,6 +13,10 @@ let articleSchema = new Schema({
   },
   imageUrl : {
     type: String
+  },
+  UserId : {
+    type : Schema.Types.ObjectId,
+    ref : 'user'
   }
 }, { versionKey: false, timestamps: true })
 

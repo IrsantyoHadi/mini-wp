@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 module.exports = (req,res,next) =>{
-  let token = req.body.token || req.headers.token
+  let token = req.headers.token
   if(token){
     try {
       req.decoded = jwt.verify(token, process.env.JWT_SECRET)

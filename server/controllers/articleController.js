@@ -4,13 +4,15 @@ class ArticleController {
   static create(req, res, next) {
     const { title, content} = req.body
     let imageUrl = null
+
     if(req.file) {
       imageUrl = req.file.cloudStoragePublicUrl
     }
     articleModel.create({
       title,
       content,
-      imageUrl
+      imageUrl,
+      UserId : req.decoded._id
     })
       .then(function (data) {
         res.status(201).json({
@@ -22,8 +24,11 @@ class ArticleController {
   }
 
   static read(req, res, next) {
-    req.query.title = new RegExp (req.query.title)
-    articleModel.find(req.query).sort([['updatedAt','descending']])
+    if(req.query.UserId){
+      req.query.title = new RegExp (req.query.title)
+      req.query.UserId = req.decoded._id
+    }
+    articleModel.find(req.query).populate({ path: 'UserId', select: 'username' }).sort([['updatedAt','descending']])
       .then(function (data) {
         res.status(200).json({
           data
@@ -41,7 +46,7 @@ class ArticleController {
         res.status(200).json({
           data,
           msg: 'berhasil update',
-          image : req.file.cloudStoragePublicUrl
+          image : (req.file) ? req.file.cloudStoragePublicUrl : null
         })
       })
       .catch(next)
