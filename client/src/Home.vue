@@ -76,7 +76,7 @@ export default {
     }
   },
   mounted: function() {
-      axios.get("http://localhost:3000/articles/all")
+      axios.get("http://34.87.38.146/articles/all")
       .then(({ data }) => {
         this.articles = data.data;
       })

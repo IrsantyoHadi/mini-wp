@@ -145,7 +145,7 @@ export default {
         this.cardArticles = true;
         axios({
           method: "get",
-          url: `http://localhost:3000/articles?UserId=${localStorage.getItem(
+          url: `http://34.87.38.146/articles?UserId=${localStorage.getItem(
             "token"
           )}`,
           headers: { token: localStorage.getItem("token") }
@@ -244,7 +244,7 @@ export default {
   },
   mounted: function() {
     axios
-      .get("http://localhost:3000/articles/all")
+      .get("http://34.87.38.146/articles/all")
       .then(({ data }) => {
         this.articles = data.data;
       })

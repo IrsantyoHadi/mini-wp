@@ -61,7 +61,7 @@ export default {
     deleteArticle: function(param) {
       axios({
         method: "delete",
-        url: `http://localhost:3000/articles/${param}`,
+        url: `http://34.87.38.146/articles/${param}`,
         headers : {token : localStorage.getItem('token')}
       })
         .then(({ data }) => {

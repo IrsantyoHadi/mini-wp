@@ -46,7 +46,7 @@ export default {
       formData.append("content", this.myHTML);
       axios({
         method: "post",
-        url: "http://localhost:3000/articles",
+        url: "http://34.87.38.146/articles",
         headers : { token : localStorage.getItem('token')},
         data: formData
       })

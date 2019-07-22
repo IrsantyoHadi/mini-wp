@@ -123,7 +123,7 @@ export default {
   methods: {
     signup: function() {
       axios({
-        url: "http://localhost:3000/users/signup",
+        url: "http://34.87.38.146/users/signup",
         method: "POST",
         data: {
           firstname: this.firstname,
@@ -150,7 +150,7 @@ export default {
     },
     signin: function() {
       axios({
-        url: "http://localhost:3000/users/signin",
+        url: "http://34.87.38.146/users/signin",
         method: "POST",
         data: {
           username: this.username,
@@ -191,7 +191,7 @@ export default {
         })
         .then(function(data) {
           return axios({
-            url: "http://localhost:3000/users/signinGoogle",
+            url: "http://34.87.38.146/users/signinGoogle",
             method: "POST",
             data: {
               data

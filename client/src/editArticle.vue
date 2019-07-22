@@ -51,7 +51,7 @@ export default {
       formData.append("content", this.content);
       axios({
         method: "put",
-        url: `http://localhost:3000/articles/${this.editid}`,
+        url: `http://34.87.38.146/articles/${this.editid}`,
         headers : {token : localStorage.getItem('token')},
         data: formData
       })
