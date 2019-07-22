@@ -54,7 +54,13 @@ export default {
           this.$emit("newdata", data.data);
         })
         .catch(err => {
-          console.log(err.response);
+          Swal.fire({
+            position: "top-end",
+            type: "error",
+            title: `${err.response}`,
+            showConfirmButton: false,
+            timer: 1500
+          });
         });
     }
   }

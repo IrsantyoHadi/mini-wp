@@ -65,7 +65,13 @@ export default {
           );
         })
         .catch(err => {
-          console.log(err.response);
+         Swal.fire({
+            position: "top-end",
+            type: "error",
+            title: `${err.response}`,
+            showConfirmButton: false,
+            timer: 1500
+          });
         });
     }
   }

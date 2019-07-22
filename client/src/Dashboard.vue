@@ -142,11 +142,13 @@ export default {
         this.searchCardArticles = false;
         this.getdetail = false;
       } else if (param == "My Post") {
-        this.cardArticles = true
+        this.cardArticles = true;
         axios({
           method: "get",
-          url: `http://localhost:3000/articles?UserId=${localStorage.getItem("token")}`,
-          headers : {token : localStorage.getItem('token')}
+          url: `http://localhost:3000/articles?UserId=${localStorage.getItem(
+            "token"
+          )}`,
+          headers: { token: localStorage.getItem("token") }
         })
           .then(({ data }) => {
             if (data.data.length) {
@@ -167,7 +169,13 @@ export default {
             }
           })
           .catch(err => {
-            console.log(err);
+            Swal.fire({
+              position: "top-end",
+              type: "error",
+              title: `${err.response}`,
+              showConfirmButton: false,
+              timer: 1500
+            });
           });
       }
     },
@@ -241,7 +249,13 @@ export default {
         this.articles = data.data;
       })
       .catch(err => {
-        console.log(err.response);
+        Swal.fire({
+            position: "top-end",
+            type: "error",
+            title: `${err.response}`,
+            showConfirmButton: false,
+            timer: 1500
+          });
       });
   }
 };

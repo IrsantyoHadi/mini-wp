@@ -93,6 +93,7 @@
 
 <script>
 import axios from "axios";
+import Swal from "sweetalert2";
 export default {
   name: "signupform",
   data: () => ({
@@ -138,7 +139,13 @@ export default {
           this.$emit("toggledashboard");
         })
         .catch(err => {
-          console.log(err.response);
+          Swal.fire({
+            position: "top-end",
+            type: "error",
+            title: `${err.response}`,
+            showConfirmButton: false,
+            timer: 1500
+          });
         });
     },
     signin: function() {
@@ -156,7 +163,13 @@ export default {
           this.$emit("toggledashboard");
         })
         .catch(err => {
-          console.log(err.response);
+          Swal.fire({
+            position: "top-end",
+            type: "error",
+            title: `${err.response}`,
+            showConfirmButton: false,
+            timer: 1500
+          });
         });
     },
     signinGoogle: function() {
@@ -191,8 +204,13 @@ export default {
           this.$emit("toggledashboard");
         })
         .catch(error => {
-          //on fail do something
-          console.log(err);
+          Swal.fire({
+            position: "top-end",
+            type: "error",
+            title: `${err}`,
+            showConfirmButton: false,
+            timer: 1500
+          });
         });
     },
     showSignIn: function() {
